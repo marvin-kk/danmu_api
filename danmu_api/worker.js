@@ -4669,9 +4669,9 @@ function formatBahamutComments(items) {
   const positionToMode = { 0: 1, 1: 5, 2: 4 };
   return items.map(c => ({
     cid: Number(c.sn),
-    p: `${c.time.toFixed(2)},${positionToMode[c.position] || c.tp},${parseInt(c.color.slice(1), 16)},[bahamut]`,
+    p: `${Math.round(c.time / 10).toFixed(2)},${positionToMode[c.position] || c.tp},${parseInt(c.color.slice(1), 16)},[bahamut]`,
     m: simplized(c.text),
-    t: c.time
+    t: Math.round(c.time / 10)
   }));
 }
 
@@ -4686,7 +4686,7 @@ async function getBahamutComments(pid, progressCallback=null){
   log("info", `弹幕处理完成，共 ${formatted.length} 条`);
   // 输出前五条弹幕
   log("info", "Top 5 danmus:", JSON.stringify(formatted.slice(0, 5), null, 2));
-  return formatted;
+  return convertToDanmakuJson(formatted, "bahamut");
 }
 
 // =====================
